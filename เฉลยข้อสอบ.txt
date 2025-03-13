@@ -1,0 +1,57 @@
+#Q1
+
+def compareVersion(version1: str, version2: str) -> int:
+    v1 = list(map(int, version1.split('.')))
+    v2 = list(map(int, version2.split('.')))
+
+    # ทำให้ list ยาวเท่ากันโดยเติม 0
+    v1.extend([0] * (len(v2) - len(v1)))
+    v2.extend([0] * (len(v1) - len(v2)))
+
+    # เปรียบเทียบ
+    return (v1 > v2) - (v1 < v2)
+
+# ทดสอบโค้ด
+print(compareVersion("1.01", "1.001"))  # 0
+print(compareVersion("1.0", "1.0.0"))   # 0
+print(compareVersion("0.1", "1.1"))     # -1
+print(compareVersion("1.2", "1.10"))    # -1
+print(compareVersion("1.10", "1.2"))    # 1
+
+
+#Q2
+
+def climbStairs(n: int) -> int:
+    if n == 1:
+        return 1
+    if n == 2:
+        return 2
+    
+    step1, step2 = 1, 2  # กรณีที่ n = 1 และ n = 2
+    for _ in range(3, n + 1):
+        current = step1 + step2  # วิธีขึ้นไปถึงขั้นปัจจุบัน = วิธีจาก 1 ขั้นก่อนหน้า + 2 ขั้นก่อนหน้า
+        step1, step2 = step2, current  # อัปเดตค่า step1 และ step2
+    return step2
+
+# ทดสอบโค้ด
+print(climbStairs(2))  # 2
+print(climbStairs(3))  # 3
+print(climbStairs(4))  # 5
+print(climbStairs(5))  # 8
+
+
+#Q3
+
+def maxProfit(prices):
+    min_price = prices[0]  # ตั้งราคาซื้อเป็นวันแรก
+    max_profit = 0  # กำไรเริ่มต้นเป็น 0
+
+    for price in prices:
+        min_price = min(min_price, price)  # อัปเดตราคาซื้อต่ำสุด
+        max_profit = max(max_profit, price - min_price)  # อัปเดตกำไรสูงสุด
+
+    return max_profit
+
+# ทดสอบโค้ด
+print(maxProfit([7, 1, 5, 3, 6, 4]))  # 5
+print(maxProfit([7, 6, 4, 3, 1]))  # 0
